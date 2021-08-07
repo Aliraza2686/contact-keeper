@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" referrerpolicy="no-referrer" />
+    <%-include('partials/bootstrap.ejs')-%>
+    <style>
+        .nav{
+            background-color: #333;
+            color: #fff;
+        }
+        #logout {
+            margin-left: 900px;
+        }
+        #name {
+            background-color: #f2f2f2;
+            padding: 10px 15px;
+        }
+        #email {
+            background-color: #f7bbbb;
+            padding: 10px 10px;
+        }
+        #delete{
+            background-color: #fff;
+            border: 2px #fff solid;
+        }
+      #card{
+          background-color: #333;
+      }
+        @media(max-width : 600px) {
+            #logout {
+                margin-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav p-3">
+        <h3>Contact Keeper <i class="fas fa-users"></i></h3>
+            <a href="/logout" class="btn btn-warning right" id="logout">Logout <i class="fas fa-user-shield"></i></a>
+    </div>
+
+    <div class="container">
+
+        <div class="container">
+            <div class="flashes mt-5">
+                <% if (flashMessages) { %>
+                  <% if (flashMessages.success) { %>
+
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="flash success"><%= flashMessages.success %></div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                  <% } else if (flashMessages.error) { %>
+                   
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        < class="flash error"><%= flashMessages.error %></div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                  <% } %>
+                <% } %>
+              </div>
+              
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mt-3">
+                    <div class="card p-3 text-light" id="card">
+                        <h4 class="text-center">
+                            Total Contacts <i class="fas fa-users"></i>
+                        </h4>
+                        <h3 class="text-center"><%=total%></h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="card p-3  text-light"  id="card">
+                        <h4 class="text-center">
+                            Personal Contacts <i class="fas fa-user-lock"></i>
+                        </h4>
+                        <h3 class="text-center"><%=personal%></h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="card p-3  text-light" id="card">
+                        <h4 class="text-center">
+                            Proffessional Contacts <i class="fas fa-laptop"></i>
+                        </h4>
+                        <h3 class="text-center"><%=proffessional%></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <a href="/add/contact" class="btn btn-primary mb-3"> <i class="fas fa-plus"></i> Add Contact</a>
+            <div class="row">
+                
+                <% contacts.forEach((contact) => { %>
+                     <div class="col-md-4 mt-3">
+                         <div class="card">
+                             <%if(contact.type === 'personal'){ %> 
+                                   <p class="btn btn-danger btn-sm"><%=contact.type%>
+                                  
+                                    </p>
+                               
+                            <%} else{ %> 
+                                <p  class="btn btn-success btn-sm"><%=contact.type%></p>
+                                <%}%>
+                             <h4 id="name"><i class="fas fa-user fa-sm"></i> <%= contact.name%></h4>
+                             <p id="email"><i class="fas fa-envelope fa-sm"></i> <%= contact.email%></p>
+                             <h6 id="email"><i class="fas fa-phone fa-sm "></i> <%=contact.phone%></h6>
+                             <div class="actions ml-1">
+                                 <form action="/delete/contact/<%=contact.id%>?_method=DELETE" method="POST">
+                                    <button class="text-danger bg-light" id="delete"><i class="fas fa-trash "></i> </button> 
+                                    <a href="/update/contact/<%=contact.id%>" class=" text-right"><i class="fas fa-pencil-alt text-right"></i></a>
+                                </form>
+                                
+                              
+                                
+                             </div>
+                         </div>
+                     </div>
+           <% })%>
+            </div>
+        </div>
+        
+        <%-include('partials/footer.ejs')-%>
+        
+<!--                 
+        <form action="/create-checkout-session" method="POST">
+            <button type="submit">Checkout</button>
+          </form> -->
+              
+    </div>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const script = Stripe('pk_test_51JL3XjHZH6oWB8SBadhzZetbdYbWsDjyfehD33w0GhT2mHnf0TdKgTCIExViU9hprDYfeZ6u7Q9G9mV6U5sQUJ7N00YVWonn4R')
+    </script>
+
+</body>
+</html>

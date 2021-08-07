@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" referrerpolicy="no-referrer" />
+    <%-include('partials/bootstrap.ejs')-%>
+    <style>
+        body {
+            background-color: rgb(17, 2, 27);
+            color: #fff;
+        }
+        #form {
+            width: 30%;
+            margin-top: 150px;
+            margin-left: 400px;
+        }
+        @media(max-width : 600px) {
+            #form {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+     <div class="container">
+         <form action="/login" class="form-group" method="POST" id="form">
+
+          <h3 class="text-center">Login Here <i class="fas fa-user-shield"></i></h3>
+
+            <div class="flashes">
+                <% if (flashMessages) { %>
+                  <% if (flashMessages.success) { %>
+
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="flash success"><%= flashMessages.success %></div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                  <% } else if (flashMessages.error) { %>
+                   
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="flash error"><%= flashMessages.error %></div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                  <% } %>
+                <% } %>
+              </div>
+            
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+            <button class="btn btn-primary mt-3 btn-block">Login</button>
+            <br>
+            <p>Dont have an account ? <a href="/">Create Account</a></p>
+        </form>
+     </div>    
+
+    
+</body>
+</html>
